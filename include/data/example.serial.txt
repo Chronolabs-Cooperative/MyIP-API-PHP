@@ -1,0 +1,2 @@
+$result = unserialize(file_get_contents("%s/v1/allmyip.serial"));
+die(print_r($results, true));

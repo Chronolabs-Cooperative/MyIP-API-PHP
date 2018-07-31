@@ -1,0 +1,1 @@
+die(file_get_contents("%s/v1/allmyip.html"));

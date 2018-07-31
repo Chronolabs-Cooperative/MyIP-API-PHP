@@ -125,11 +125,14 @@ if (!function_exists("getNetbios")) {
  * @param string $email
  * @return boolean
  */
-function validateMD5($md5) {
-    if(preg_match("/^[a-f0-9]{32}$/i", $md5)) {
-        return true;
-    } else {
-        return false;
+
+if (!function_exists("validateMD5")) {
+    function validateMD5($md5) {
+        if(preg_match("/^[a-f0-9]{32}$/i", $md5)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
@@ -140,11 +143,13 @@ function validateMD5($md5) {
  * @param string $email
  * @return boolean
  */
-function validateEmail($email) {
-    if(preg_match("^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|mobi|asia|museum|name))$", $email)) {
-        return true;
-    } else {
-        return false;
+if (!function_exists("validateEmail")) {
+    function validateEmail($email) {
+        if(preg_match("^[_a-zA-Z0-9-]+(\.[_a-zA-Z0-9-]+)*@[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]+)*(\.([0-9]{1,3})|([a-zA-Z]{2,3})|(aero|coop|info|mobi|asia|museum|name))$", $email)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
@@ -155,11 +160,13 @@ function validateEmail($email) {
  * @param string $domain
  * @return boolean
  */
-function validateDomain($domain) {
-    if(!preg_match("/^([-a-z0-9]{2,100})\.([a-z\.]{2,8})$/i", $domain)) {
-        return false;
+if (!function_exists("validateDomain")) {
+    function validateDomain($domain) {
+        if(!preg_match("/^([-a-z0-9]{2,100})\.([a-z\.]{2,8})$/i", $domain)) {
+            return false;
+        }
+        return $domain;
     }
-    return $domain;
 }
 
 /**
@@ -169,15 +176,16 @@ function validateDomain($domain) {
  * @param string $ip
  * @return boolean
  */
-function validateIPv4($ip) {
-    if(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_RES_RANGE) === FALSE) // returns IP is valid
-    {
-        return false;
-    } else {
-        return true;
+if (!function_exists("validateIPv4")) {
+    function validateIPv4($ip) {
+        if(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_NO_RES_RANGE) === FALSE) // returns IP is valid
+        {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
-
 /**
  * validateIPv6()
  * Validates and IPv6 Address
@@ -185,15 +193,16 @@ function validateIPv4($ip) {
  * @param string $ip
  * @return boolean
  */
-function validateIPv6($ip) {
-    if(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === FALSE) // returns IP is valid
-    {
-        return false;
-    } else {
-        return true;
+if (!function_exists("validateIPv6")) {
+    function validateIPv6($ip) {
+        if(filter_var($ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6) === FALSE) // returns IP is valid
+        {
+            return false;
+        } else {
+            return true;
+        }
     }
 }
-
 /**
  * get A + AAAA record for $host
  * 
@@ -204,15 +213,17 @@ function validateIPv6($ip) {
  * 
  * return array
  */
-function getHostByName6($host, $try_a = false) {   
-    $dns6 = dns_get_record($host, DNS_AAAA);
-    if ($try_a == true) {
-        $dns4 = getHostByName($host);
-        $dns = array_merge($dns4, $dns6);
+if (!function_exists("getHostByName6")) {
+    function getHostByName6($host, $try_a = false) {   
+        $dns6 = dns_get_record($host, DNS_AAAA);
+        if ($try_a == true) {
+            $dns4 = getHostByName($host);
+            $dns = array_merge($dns4, $dns6);
+        }
+        else { $dns = $dns6; }
+        if ($dns == false) { return false; }
+        else { return $dns; }
     }
-    else { $dns = $dns6; }
-    if ($dns == false) { return false; }
-    else { return $dns; }
 }
 
 /**
@@ -225,39 +236,41 @@ function getHostByName6($host, $try_a = false) {
  *
  * return array
  */
-function getHostByNamel6($host, $try_a = false) {
-    
-    $dns6 = dns_get_record($host, DNS_AAAA);
-    if ($try_a == true) {
-        $dns4 = getHostByName($host);
-        $dns = array_merge($dns4, $dns6);
-    }
-    else { $dns = $dns6; }
-    $ip6 = array();
-    $ip4 = array();
-    foreach ($dns as $record) {
-        if ($record["type"] == "A") {
-            $ip4[] = $record["ip"];
-        }
-        if ($record["type"] == "AAAA") {
-            $ip6[] = $record["ipv6"];
-        }
-    }
-    if (count($ip6) < 1) {
+if (!function_exists("getHostByNamel6")) {
+    function getHostByNamel6($host, $try_a = false) {
+        
+        $dns6 = dns_get_record($host, DNS_AAAA);
         if ($try_a == true) {
-            if (count($ip4) < 1) {
-                return false;
+            $dns4 = getHostByName($host);
+            $dns = array_merge($dns4, $dns6);
+        }
+        else { $dns = $dns6; }
+        $ip6 = array();
+        $ip4 = array();
+        foreach ($dns as $record) {
+            if ($record["type"] == "A") {
+                $ip4[] = $record["ip"];
+            }
+            if ($record["type"] == "AAAA") {
+                $ip6[] = $record["ipv6"];
+            }
+        }
+        if (count($ip6) < 1) {
+            if ($try_a == true) {
+                if (count($ip4) < 1) {
+                    return false;
+                }
+                else {
+                    return $ip4;
+                }
             }
             else {
-                return $ip4;
+                return false;
             }
         }
         else {
-            return false;
+            return $ip6;
         }
-    }
-    else {
-        return $ip6;
     }
 }
 
@@ -270,10 +283,12 @@ function getHostByNamel6($host, $try_a = false) {
  *
  * return array
  */
-function getHostByName($host) {
-    $dns = dns_get_record($host, DNS_A);
-    if ($dns == false) { return false; }
-    else { return $dns; }
+if (!function_exists("getHostByName")) {
+    function getHostByName($host) {
+        $dns = dns_get_record($host, DNS_A);
+        if ($dns == false) { return false; }
+        else { return $dns; }
+    }
 }
 
 /**
@@ -285,19 +300,21 @@ function getHostByName($host) {
  *
  * return array
  */
-function getHostByNamel($host) {
-    $dns4 = getHostByName($host);
-    $ip4 = array();
-    foreach ($dns4 as $record) {
-        if ($record["type"] == "A") {
-            $ip4[] = $record["ip"];
+if (!function_exists("getHostByNamel")) {
+    function getHostByNamel($host) {
+        $dns4 = getHostByName($host);
+        $ip4 = array();
+        foreach ($dns4 as $record) {
+            if ($record["type"] == "A") {
+                $ip4[] = $record["ip"];
+            }
         }
-    }
-    if (count($ip4) < 1) {
-        return false;
-    }
-    else {
-        return $ip4;
+        if (count($ip4) < 1) {
+            return false;
+        }
+        else {
+            return $ip4;
+        }
     }
 }
 

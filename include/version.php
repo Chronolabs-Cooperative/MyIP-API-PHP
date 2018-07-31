@@ -41,5 +41,5 @@ defined('API_ROOT_PATH') || exit('Restricted access');
 /**
  *  Define API version
  */
-define('API_VERSION', 'My IPv4 or IPv6 REST API 1.0.3');
+define('API_VERSION', 'My IPv4 or IPv6 REST API 1.0.7');
 define('API_TYPE', 'myip-api');

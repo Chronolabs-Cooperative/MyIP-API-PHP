@@ -1,0 +1,2 @@
+$result = json_decode(file_get_contents("%s/v1/allmyip.json"), true);
+die(print_r($results, true));

@@ -1,0 +1,2 @@
+$result = simplexml_load_file("%s/v1/allmyip.xml");
+die(print_r($results, true));

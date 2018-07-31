@@ -34,7 +34,6 @@ if (!is_file(__DIR__ . DIRECTORY_SEPARATOR . 'mainfile.php') || !is_file(__DIR__
 
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'mainfile.php';
 require_once __DIR__ . DIRECTORY_SEPARATOR . 'include' . DIRECTORY_SEPARATOR . 'functions.php';
-require_once __DIR__ . DIRECTORY_SEPARATOR . 'class' . DIRECTORY_SEPARATOR . 'apiserver.php';
 
 /**
  * Opens Access Origin Via networking Route NPN

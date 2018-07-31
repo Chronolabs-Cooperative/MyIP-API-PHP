@@ -106,7 +106,7 @@
 	
     $myip = new myip();
     $data = $myip->query($mode, $format);
-	switch ($output) {
+	switch ($format) {
 		default:
 		    header('Content-type: text/html');
 			echo '<h1>IP Calling Data</h1>';
@@ -115,7 +115,7 @@
 			    echo "<h2>$field Data</h2>";
 			    echo "\t<ol>";
 			    foreach($values as $flds => $value)
-			        echo "\t\t<li>$value</li>";
+			        echo "\t\t<li>" . implode(", ", $value) . "</li>";
 			    echo "\t</ol>";
 			}
 			break;

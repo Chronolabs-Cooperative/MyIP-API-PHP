@@ -2,7 +2,7 @@
 
 # MyIP Address REST API Services
 
-## Version: 1.0.3 (final major)
+## Version: 1.0.7 (stable)
 
 ### Author: Dr. Simon Antony Roberts <simon@snails.email>
 
